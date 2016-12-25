@@ -6,7 +6,9 @@
     "start": "node ./bin/www",
     "server1": "set PORT=3001 & node ./bin/www",
     "server2": "set PORT=3002 & node ./bin/www",
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "bootstrapsetup": "cd bower_components/bootstrap && npm install && npm install grunt-cli ",
+    "buildbootstrap": "cp variables.less bower_components/bootstrap/less && cd bower_components/bootstrap && grunt"
   },
   "dependencies": {
     "body-parser": "~1.15.2",

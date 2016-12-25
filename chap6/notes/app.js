@@ -28,10 +28,19 @@ app.use('/', index);
 app.use('/notes', notes);
 
 // Handle Bower Packages
+/*
 app.use('/vendor/bootstrap', express.static(
   path.join(__dirname, 'bower_components', 'bootstrap', 'dist')));
+*/  
+// app.use('/vendor/bootstrap/css', express.static(path.join(__dirname, 'cyborg')));
+app.use('/vendor/bootstrap/css', express.static(path.join(__dirname, 'bower_components', 'bootstrap', 'dist', 'css')));
+app.use('/vendor/bootstrap/fonts', express.static(path.join(__dirname, 'bower_components', 'bootstrap', 'dist', 'fonts')));
+app.use('/vendor/bootstrap/js', express.static(path.join(__dirname, 'bower_components', 'bootstrap', 'dist', 'js')));
+app.use('/vendor/jquery', express.static(path.join(__dirname, 'bower_components', 'jquery', 'dist')));
+/*
 app.use('/vendor/jquery', express.static(
   path.join(__dirname, 'bower_components', 'jquery', 'dist')));
+*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -4,7 +4,13 @@
 <% include headerStuff %>
 </head>
 <body>
+
+<div class="container-fluid">
+
 <% include pageHeader %>
+
+<div class="row"><div class="col-xs-12">
+
 <form method='POST' action='/notes/destroy/confirm'>
 <input type='hidden' name='notekey' value='<%=
                      note ? notekey : "" %>'>
@@ -12,6 +18,12 @@
 <br/>
 <input type='submit' value='DELETE' /> <a href="/notes/view?key=<%= notekey %>">Cancel</a>
 </form>
+
+</div></div>
+
 <% include footer %>
+
+</div>
+
 </body>
 </html>
