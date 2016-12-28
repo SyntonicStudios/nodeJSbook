@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head><% include headerStuff %></head>
+<head>
+<% include headerStuff %>
+</head>
 <body>
 <div class="container-fluid">
 <% include pageHeader %>
@@ -11,7 +13,7 @@
 <p>Key: <%= notekey %></p>
 </div></div>
 
-<% if (notekey) { %>
+<% if (notekey && user) { %>
     <div class="row">
     <div class="btn-group col-sm-12">
         <a class="btn btn-default" href="/notes/destroy?key=<%= notekey %>" role="button">Delete</a>

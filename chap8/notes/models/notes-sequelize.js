@@ -4,20 +4,21 @@ const util      = require('util');
 const fs        = require('fs-extra');
 const jsyaml    = require('js-yaml');
 const Sequelize = require("sequelize");
+
 const log     = require('debug')('notes:sequelize-model');
 const error   = require('debug')('notes:error');
+
 const Note    = require('./Note');
+
+var SQNote;
+var sequlz;
 
 exports.connectDB = function() {
     
-    var SQNote;
-    var sequlz;
-
     if (SQNote) return SQNote.sync();
     
     return new Promise((resolve, reject) => {
-        fs.readFile(process.env.SEQUELIZE_CONNECT, 'utf8',
-        (err, data) => {
+        fs.readFile(process.env.SEQUELIZE_CONNECT, 'utf8', (err, data) => {
             if (err) reject(err);
             else resolve(data);
         });
@@ -26,12 +27,9 @@ exports.connectDB = function() {
         return jsyaml.safeLoad(yamltext, 'utf8');
     })
     .then(params => {
-        sequlz = new Sequelize(params.dbname,
-                       params.username, params.password,
-                       params.params);
+        sequlz = new Sequelize(params.dbname, params.username, params.password, params.params);
         SQNote = sequlz.define('Note', {
-            notekey: { type: Sequelize.STRING,
-                       primaryKey: true, unique: true },
+            notekey: { type: Sequelize.STRING, primaryKey: true, unique: true },
             title: Sequelize.STRING,
             body: Sequelize.TEXT
         });
@@ -75,8 +73,7 @@ exports.read = function(key) {
             if (!note) {
                 throw new Error("No note found for " + key);
             } else {
-                return new Note(note.notekey,
-                                note.title, note.body);
+                return new Note(note.notekey, note.title, note.body);
             }
         });
     });
@@ -93,7 +90,8 @@ exports.destroy = function(key) {
 };
 
 exports.keylist = function() {
-    return exports.connectDB().then(SQNote => {
+    return exports.connectDB()
+    .then(SQNote => {
         return SQNote.findAll({ attributes: [ 'notekey' ] })
         .then(notes => {
             return notes.map(note => note.notekey);
@@ -102,10 +100,13 @@ exports.keylist = function() {
 };
 
 exports.count = function() {
-    return exports.connectDB().then(SQNote => {
-        return SQNote.count().then(count => {
+    return exports.connectDB()
+    .then(SQNote => {
+        return SQNote.count()
+        .then(count => {
             log('COUNT '+ count);
             return count;
         });
     });
 };
+

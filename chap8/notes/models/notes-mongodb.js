@@ -3,8 +3,10 @@
 const util        = require('util');
 const mongodb     = require("mongodb");
 const MongoClient = require('mongodb').MongoClient;
+
 const log         = require('debug')('notes:mongodb-model');
 const error       = require('debug')('notes:error');
+
 const Note        = require('./Note');
 
 var db;
@@ -28,6 +30,7 @@ exports.create = function(key, title, body) {
     .then(db => {
         var note = new Note(key, title, body);
         var collection = db.collection('notes');
+        log('CREATE '+ util.inspect(note));
         return collection.insertOne({
             notekey: key, title: title, body: body
         }).then(result => { return note; });
@@ -39,6 +42,7 @@ exports.update = function(key, title, body) {
     .then(db => {
         var note = new Note(key, title, body);
         var collection = db.collection('notes');
+        log('UPDATE '+ util.inspect(note));
         return collection.updateOne({ notekey: key },
             { $set: { title: title, body: body } })
         .then(result => { return note; } );
@@ -53,6 +57,7 @@ exports.read = function(key) {
         return collection.findOne({ notekey: key })
         .then(doc => {
             var note = new Note(doc.notekey, doc.title, doc.body);
+            log('READ '+ util.inspect(note));
             return note;
         });
     });
@@ -62,6 +67,7 @@ exports.destroy = function(key) {
     return exports.connectDB()
     .then(db => {
         var collection = db.collection('notes');
+        log('DELETE '+ key);
         return collection.findOneAndDelete({ notekey: key });
     });
 };
@@ -76,7 +82,10 @@ exports.keylist = function() {
                 note => { keyz.push(note.notekey); },
                 err  => {
                     if (err) reject(err);
-                    else resolve(keyz);
+                    else {
+                        log('KEYLIST '+ util.inspect(keyz));
+                        resolve(keyz);
+                    }
                 }
             );
         });
@@ -95,3 +104,4 @@ exports.count = function() {
         });
     });
 };
+

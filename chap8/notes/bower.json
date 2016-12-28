@@ -1,12 +1,10 @@
 {
   "name": "notes",
-  "description": "A notes application",
+  "description": "",
   "main": "",
-  "authors": [
-    "Brady Prigge <syntonicstudios@gmail.com>"
-  ],
   "license": "MIT",
-  "homepage": "https://github.com/SyntonicStudios/nodeJSbook",
+  "moduleType": [],
+  "homepage": "",
   "ignore": [
     "**/.*",
     "node_modules",

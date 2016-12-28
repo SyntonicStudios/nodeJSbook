@@ -5,6 +5,7 @@ const sqlite3 = require('sqlite3');
 
 const log     = require('debug')('notes:sqlite3-model');
 const error   = require('debug')('notes:error');
+
 const Note    = require('./Note');
 
 sqlite3.verbose();
@@ -68,8 +69,7 @@ exports.read = function(key) {
                 [ key ], (err, row) => {
                 if (err) reject(err);
                 else {
-                    var note = new Note(row.notekey,
-                                 row.title, row.body);
+                    var note = new Note(row.notekey, row.title, row.body);
                     log('READ '+ util.inspect(note));
                     resolve(note);
                 }
@@ -104,7 +104,10 @@ exports.keylist = function() {
                 },
                 (err, num) => {
                     if (err) reject(err);
-                    else resolve(keyz);
+                    else {
+                        log('KEYLIST '+ num +' '+ util.inspect(keyz));
+                        resolve(keyz);
+                    }
                 });
         });
     });
@@ -116,6 +119,7 @@ exports.count = function() {
             db.get("select count(notekey) as count from notes",
                 (err, row) => {
                     if (err) return reject(err);
+                    log('COUNT '+ util.inspect(row));
                     resolve(row.count);
                 });
         });

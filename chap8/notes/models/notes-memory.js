@@ -1,7 +1,9 @@
 'use strict';
 
-var notes = [];
+const util = require('util');
 const Note = require('./Note');
+
+var notes = [];
 
 exports.update = exports.create = function(key, title, body) {
     return new Promise((resolve, reject) => {
@@ -32,7 +34,7 @@ exports.keylist = function() {
     });
 };
 
-exports.count = function() {
+exports.count   = function()    {
     return new Promise((resolve, reject) => {
         resolve(notes.length);
     });

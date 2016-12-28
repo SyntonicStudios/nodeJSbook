@@ -7,13 +7,13 @@ const log     = require('debug')('notes:levelup-model');
 const error   = require('debug')('notes:error');
 
 const Note    = require('./Note');
+
 var db; // store the database connection here
 
 function connectDB() {
     return new Promise((resolve, reject) => {
         if (db) return resolve(db);
-        levelup(process.env.LEVELUP_DB_LOCATION
-                   || 'notes.levelup', {
+        levelup(process.env.LEVELUP_DB_LOCATION || 'notes.levelup', {
             createIfMissing: true,
             valueEncoding: "json"
         },
@@ -42,8 +42,7 @@ exports.read = function(key) {
         return new Promise((resolve, reject) => {
             db.get(key, (err, note) => {
                 if (err) reject(err);
-                else resolve(new Note(note.key,
-                             note.title, note.body));
+                else resolve(new Note(note.key, note.title, note.body));
             });
         });
     });
@@ -83,5 +82,3 @@ exports.count = function() {
         });
     });
 };
-
-

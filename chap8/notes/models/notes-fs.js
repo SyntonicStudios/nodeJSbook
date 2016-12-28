@@ -3,6 +3,7 @@
 const fs    = require('fs-extra');
 const path  = require('path');
 const util  = require('util');
+
 const log   = require('debug')('notes:fs-model');
 const error = require('debug')('notes:error');
 
@@ -35,8 +36,7 @@ function readJSON(notesdir, key) {
 
 exports.update = exports.create = function(key, title, body) {
     return notesDir().then(notesdir => {
-        if (key.indexOf('/') >= 0) 
-             throw new Error(`key ${key} cannot contain '/'`);
+        if (key.indexOf('/') >= 0) throw new Error(`key ${key} cannot contain '/'`);
         var note = new Note(key, title, body);
         const writeTo = filePath(notesdir, key);
         const writeJSON = note.JSON;
@@ -53,8 +53,7 @@ exports.update = exports.create = function(key, title, body) {
 exports.read = function(key) {
     return notesDir().then(notesdir => {
         return readJSON(notesdir, key).then(thenote => {
-            log('READ '+ notesdir +'/'+ key 
-                       +' '+ util.inspect(thenote));
+            log('READ '+ notesdir +'/'+ key +' '+ util.inspect(thenote));
             return thenote;
         });
     });
@@ -82,8 +81,7 @@ exports.keylist = function() {
         });
     })
     .then(data => {
-        log('keylist dir='+ data.notesdir 
-                +' files='+ util.inspect(data.filez));
+        log('keylist dir='+ data.notesdir +' files='+ util.inspect(data.filez));
         var thenotes = data.filez.map(fname => {
             var key = path.basename(fname, '.json');
             log('About to READ '+ key);

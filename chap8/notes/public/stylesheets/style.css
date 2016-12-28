@@ -3,13 +3,13 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-header {
-  background: #eeeeee;
-  padding: 5px;
-}
-
 a {
   color: #00B7FF;
+}
+
+header.page-header {
+    background: #eeeeee;
+    padding: 5px;
 }
 
 header.page-header h1 {
